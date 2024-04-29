@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game</title>
+    <style>
+        /* General styles */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom right, #5073b3, #385d8e); /* Updated gradient background */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 20px;
+        }
+
+        .player-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px; /* Adjusted margin */
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 30px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        img {
+            height: 200px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dice-container">
+            <div class="player-container">
+                <p>Player 1</p>
+                <img id="dice" src="" alt="">
+                <button onclick="spin('Player 1')">Roll Player 1</button> <!-- Button under the image -->
+            </div>
+            <div class="player-container">
+                <p>Player 2</p>
+                <img id="dice1" src="" alt="">
+                <button onclick="spin('Player 2')">Roll Player 2</button> <!-- Button under the image -->
+            </div>
+        </div>
+        <p id="result"></p>
+    </div>
+
+    <script>
+         function spin(player) {
+            setTimeout(() => {
+                const img = document.getElementById(player === 'Player 1' ? 'dice' : 'dice1');
+                img.src = 'image/rollingdice.gif';
+            }, 500);
+            setTimeout(() => {
+                const result = Math.floor(Math.random() * 6) + 1;
+                const img = document.getElementById(player === 'Player 1' ? 'dice' : 'dice1');
+                img.src = `image/${result}.jpg`;
+                const resultElement = document.getElementById('result');
+                resultElement.textContent = `${player} rolled ${result}`;
+                checkWinner();
+            }, 1500);
+        }
+
+        function checkWinner() {
+            const result1 = parseInt(document.getElementById('dice').src.split('/').pop().split('.')[0]);
+            const result2 = parseInt(document.getElementById('dice1').src.split('/').pop().split('.')[0]);
+            const resultElement = document.getElementById('result');
+            if (result1 === result2) {
+                resultElement.textContent = "It's a draw!";
+            } else if (result1 > result2) {
+                resultElement.textContent = "Player 1 wins!";
+            } else {
+                resultElement.textContent = "Player 2 wins!";
+            }
+        }
+    </script>
+</body>
+</html>
